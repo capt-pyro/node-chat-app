@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 var server = http.createServer(app);
 var io = SOCKETIO(server);
-
+//heroku is acting funny
 app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
