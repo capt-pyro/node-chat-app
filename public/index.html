@@ -18,7 +18,7 @@
   <div class="chat__footer">
     <form id="message-form">
       <input name="message" type="text" placeholder="Message" autocomplete="off" autofocus/>
-      <button id="send-button">Send</button>
+      <button id="send-button" disabled>Send</button>
     </form>
     <button id="send-location">Send Location</button>
   </div>
@@ -27,6 +27,7 @@
 <script src="/socket.io/socket.io.js"></script><!-- enables client side socket comm-->
 <script src="/js/libs/jquery-3.2.1.min.js"></script><!--lightweight jQuery to enable js functionality-->
 <script src="/js/index.js"></script><!--All javascript code-->
+<script src="/js/libs/moment.js"></script><!--Time Functionality-->
 </body>
 
 </html>

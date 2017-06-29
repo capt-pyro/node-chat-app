@@ -1,29 +1,36 @@
-var socket = io();
-
+var socket = io();//intialize socket
+//Connect
 socket.on('connect', function () {
   console.log('Connected to server');
-
 });
-
-socket.on('disconnect', function () {
-  console.log('Disconnected from server');
+//prevents spamming of send key (doesn't send blank strings)
+jQuery("[name=message]").keyup(function () {
+  if(jQuery("[name=message]") != '') {
+    jQuery("#send-button").removeAttr('disabled');
+  }
+  else {
+    jQuery("#send-button").attr('disabled', 'disabled');
+  }
 });
-
+//Listens for a new message from server
 socket.on('newMessage', function (message) {
+  var formattedTime = moment(message.createdAt).format('h:mm a');
   console.log('newMessage', message);
   var li = jQuery('<li></li>');
-  li.text(`${message.from}: ${message.text}`);
+  li.text(`${message.from} [${formattedTime}]: ${message.text}`);
   jQuery('#messages').append(li);
 });
+//Listens for a new Location message from server
 socket.on('newLocationMessage', function (message) {
+  var formattedTime = moment(message.createdAt).format('h:mm a');
   var li = jQuery('<li></li>');
   var a = jQuery('<a target="_blank">My Current Location</a>');//target blank opens new tab
-  li.text(`${message.from}: `);
+  li.text(`${message.from} [${formattedTime}]:`);
   a.attr('href',message.url);
   li.append(a);
   jQuery('#messages').append(li);
 });
-
+//Sends data when submit is clicked
 var messageBox = jQuery('[name=message]');
 jQuery('#message-form').on('submit', function(e) {
   e.preventDefault();
@@ -34,7 +41,7 @@ jQuery('#message-form').on('submit', function(e) {
     messageBox.val('')
   });
 });
-
+//Handles sending of location request (including fancy animation of location button)
 var locationButton = jQuery('#send-location');
   locationButton.on('click', function () {
     if(!navigator.geolocation) {
@@ -54,5 +61,8 @@ var locationButton = jQuery('#send-location');
       alert('Unable to fetch current location. Please turn on location');
       locationButton.removeAttr('disabled').text('Send location');
     });
-
+});
+//Disconnect
+socket.on('disconnect', function () {
+  console.log('Disconnected from server');
 });

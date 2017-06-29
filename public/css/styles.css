@@ -14,6 +14,9 @@ input[type=text] {
 #send-location:disabled {
   background-color: #ff7c7c;
 }
+#send-button:disabled {
+  background-color: #8ebce5;
+}
 #send-button {
   border-radius: 8px;
   font-weight: bold;
