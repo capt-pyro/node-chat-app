@@ -16,6 +16,4 @@ var generateLocationMessage = (from,lat,long) => {
   }
 }
 
-console.log(generateMessage('admi','hail').createdAt);
-
 module.exports = {generateMessage, generateLocationMessage};
