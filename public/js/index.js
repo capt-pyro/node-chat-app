@@ -5,7 +5,7 @@ socket.on('connect', function () {
 });
 //prevents spamming of send key (doesn't send blank strings)
 jQuery("[name=message]").keyup(function () {
-  if(jQuery("[name=message]") != '') {
+  if(jQuery("[name=message]").val() != '') {
     jQuery("#send-button").removeAttr('disabled');
   }
   else {
