@@ -17,7 +17,16 @@ if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeig
 
 //Connect
 socket.on('connect', function () {
-  console.log('Connected to server');
+  var params = jQuery.deparam(window.location.search);
+  socket.emit('join',params,function (err) {
+    if (err) {
+      window.location.href = '/';
+      alert(err);
+    }
+    else {
+        console.log("No error");
+    }
+  });
 });
 //prevents spamming of send key (doesn't send blank strings)
 jQuery("[name=message]").keyup(function () {
