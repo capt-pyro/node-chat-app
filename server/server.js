@@ -45,15 +45,21 @@ io.on('connection', (socket) => {
   //Listens for a new message from a client
   socket.on('createMessage', (message, callback) => {
     //development only
-    console.log(`createMessage`,message);
+    //console.log(`createMessage`,message);
     //
+    var user = users.getUser(socket.id);
+    if(user && isRealString(message.text)) {
+      io.to(user.room).emit('newMessage',generateMessage(user.name,message.text));
+    }
     //When a new message arrives send it to every one
-    io.emit('newMessage',generateMessage(message.from,message.text));
     callback('This is from the server');//acknowledgement
   });
   //Listens for a location broadcast request
   socket.on('createLocationMessage', (coords) => {
-    io.emit('newLocationMessage',generateLocationMessage('Admin', coords.latitude,coords.longitude));
+    var user = users.getUser(socket.id);
+    if(user){
+    io.to(user.room).emit('newLocationMessage',generateLocationMessage(`${user.name}`, coords.latitude,coords.longitude));
+  }
   });
   //Disconnect (within a connect)
   socket.on('disconnect', () => {
